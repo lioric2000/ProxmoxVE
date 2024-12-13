@@ -31,9 +31,51 @@ msg_ok "Installed Dependencies"
 # sh -c 'echo "deb [signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com stable main" > /etc/apt/sources.list.d/grafana.list'
 # msg_ok "Set up Grafana Repository"
 
+# Function to prompt for confirmation
+myconfirm() {
+    local message="$1"
+    local max_attempts=3
+    local current_attempt=1
+
+    while true; do
+        read -p "$message (y=yes, q=quit): " choice
+        
+        case "$choice" in
+            y|Y )
+                echo "Continuing with the script..."
+                return 0
+                ;;
+            q|Q )
+                echo "Script aborted. Exiting."
+                exit 1
+                ;;
+            * )
+                if [ "$current_attempt" -lt "$max_attempts" ]; then
+                    echo "Invalid input. Please try again ($current_attempt/$max_attempts)."
+                    ((current_attempt++))
+                else
+                    echo "Too many invalid attempts. Script exiting."
+                    exit 1
+                fi
+                ;;
+        esac
+    done
+}
+
 msg_info "Installing Grafana"
-wget -q -O /tmp/grafana_11.1.3_amd64.deb https://dl.grafana.com/oss/release/grafana_11.1.3_amd64.deb
-$STD dpkg -i /tmp/grafana_11.1.3_amd64.deb
+#wget -q -O /tmp/grafana_11.1.3_amd64.deb https://dl.grafana.com/oss/release/grafana_11.1.3_amd64.deb
+#$STD dpkg -i /tmp/grafana_11.1.3_amd64.deb
+
+echo "Please perform the following manual steps:"
+echo "Step 1: sudo apt-get install -y adduser libfontconfig1 musl"
+echo "Step 2: wget https://dl.grafana.com/oss/release/grafana_11.1.3_amd64.deb"
+echo "Step 3: sudo dpkg -i grafana_11.1.3_amd64.deb"
+
+confirm "Have you completed all manual steps?"
+
+# Rest of your script logic goes here
+echo "Script continues..."
+
 systemctl start grafana-server
 systemctl enable --now -q grafana-server.service
 msg_ok "Installed Grafana"
