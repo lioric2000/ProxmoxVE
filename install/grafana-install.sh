@@ -68,7 +68,7 @@ echo "Step 1: sudo apt-get install -y adduser libfontconfig1 musl"
 echo "Step 2: wget https://dl.grafana.com/oss/release/grafana_11.1.3_amd64.deb"
 echo "Step 3: sudo dpkg -i grafana_11.1.3_amd64.deb"
 
-confirm "Have you completed all manual steps?"
+myconfirm "Have you completed all manual steps?"
 
 # Rest of your script logic goes here
 echo "Script continues..."
