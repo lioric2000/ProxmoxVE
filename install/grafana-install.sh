@@ -20,9 +20,6 @@ $STD apt-get install -y mc
 $STD apt-get install -y gnupg
 $STD apt-get install -y apt-transport-https
 $STD apt-get install -y software-properties-common
-$STD apt-get install -y adduser
-$STD apt-get install -y libfontconfig1
-$STD apt-get install -y musln
 
 msg_ok "Installed Dependencies"
 
